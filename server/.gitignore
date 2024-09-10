@@ -1,0 +1,4 @@
+.env
+examples.txt
+node_modules
+.migrations
