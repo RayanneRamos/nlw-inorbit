@@ -25,8 +25,8 @@
 
 ## 🔗 READMES
 
-<a href="https://github.com/RayanneRamos/nlw-inorbit/tree/master/server">Server</a>
-<a href="https://github.com/RayanneRamos/nlw-inorbit/tree/master/web">Web</a>
+- [Server](https://github.com/RayanneRamos/nlw-inorbit/tree/master/server)
+- [Web](https://github.com/RayanneRamos/nlw-inorbit/tree/master/web)
 
 ## 📝 License
 
