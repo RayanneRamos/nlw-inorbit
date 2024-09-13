@@ -23,7 +23,7 @@
 * <strong>Acompanhamento de Progresso</strong>: Conforme você for completando o hábito, seu progresso será atualizado automaticamente.
 * <strong>Visualização de Metas</strong>: Veja quantas metas você já completou e quantas ainda faltam para atingir seu objetivo.
 
-## 🔗 READMES
+## 🔗 Repositórios
 
 - [Server](https://github.com/RayanneRamos/nlw-inorbit/tree/master/server)
 - [Web](https://github.com/RayanneRamos/nlw-inorbit/tree/master/web)
