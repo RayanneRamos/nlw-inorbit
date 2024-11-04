@@ -8,7 +8,7 @@ export const users = pgTable('users', {
   name: text('name'),
   email: text('email'),
   avatarUrl: text('avatar_url').notNull(),
-  externalAccount: integer('external_account_id').notNull().unique(),
+  externalAccountId: integer('external_account_id').notNull().unique(),
 })
 
 export const goals = pgTable('goals', {

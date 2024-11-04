@@ -20,7 +20,7 @@ export async function authenticateFromGithubCode({
   const result = await db
     .select()
     .from(users)
-    .where(eq(users.externalAccount, githubUser.id))
+    .where(eq(users.externalAccountId, githubUser.id))
 
   const userAlreadyExists = result.length > 0
 
@@ -35,7 +35,7 @@ export async function authenticateFromGithubCode({
         name: githubUser.name,
         email: githubUser.email,
         avatarUrl: githubUser.avatar_url,
-        externalAccount: githubUser.id,
+        externalAccountId: githubUser.id,
       })
       .returning()
 

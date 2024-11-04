@@ -10,7 +10,7 @@ async function seed() {
     .insert(users)
     .values({
       name: 'John Doe',
-      externalAccount: 18234712,
+      externalAccountId: 18234712,
       avatarUrl: 'https://github.com/RayanneRamos.png',
     })
     .returning()
