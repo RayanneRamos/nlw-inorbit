@@ -3,6 +3,7 @@ import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import { getWeekPendingGoals } from '../../functions/get-week-pending-goals'
 import { getWeekSummary } from '../../functions/get-week-summary'
 import { authenticateUserHook } from '../hooks/authenticate-user'
+import dayjs from 'dayjs'
 
 export const getWeekSummaryRoute: FastifyPluginAsyncZod = async app => {
   app.get(
@@ -12,6 +13,12 @@ export const getWeekSummaryRoute: FastifyPluginAsyncZod = async app => {
       schema: {
         tags: ['goals'],
         description: 'Get week summary',
+        querystring: z.object({
+          weekStartAt: z.coerce
+            .date()
+            .optional()
+            .default(dayjs().startOf('week').toDate()),
+        }),
         response: {
           200: z.object({
             summary: z.object({
@@ -34,7 +41,8 @@ export const getWeekSummaryRoute: FastifyPluginAsyncZod = async app => {
     },
     async request => {
       const userId = request.user.sub
-      const { summary } = await getWeekSummary({ userId })
+      const { weekStartAt } = request.query
+      const { summary } = await getWeekSummary({ userId, weekStartAt })
 
       return { summary }
     }

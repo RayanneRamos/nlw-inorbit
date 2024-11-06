@@ -1,12 +1,18 @@
-import { describe, it, expect, beforeEach } from 'vitest'
-import { makeUser } from '../../tests/factories/make-user'
-import { makeGoal } from '../../tests/factories/make-goal'
+import { describe, expect, it } from 'vitest'
 import { makeGoalCompletion } from '../../tests/factories/make-goal-completion'
 import { getWeekPendingGoals } from './get-week-pending-goals'
+import { getWeekSummary } from './get-week-summary'
+import dayjs from 'dayjs'
+import { makeUser } from '../../tests/factories/make-user'
+import { makeGoal } from '../../tests/factories/make-goal'
 
 describe('get week summary', () => {
   it('should be able to get week summary', async () => {
     const user = await makeUser()
+
+    const weekStartAt = dayjs(new Date(2024, 9, 6))
+      .startOf('week')
+      .toDate()
 
     const goal1 = await makeGoal({
       userId: user.id,
@@ -23,38 +29,51 @@ describe('get week summary', () => {
     const goal3 = await makeGoal({
       userId: user.id,
       title: 'Ler',
-      desiredWeeklyFrequency: 1,
+      desiredWeeklyFrequency: 3,
     })
 
-    await makeGoalCompletion({ goalId: goal1.id })
-    await makeGoalCompletion({ goalId: goal2.id })
-    await makeGoalCompletion({ goalId: goal3.id })
-    await makeGoalCompletion({ goalId: goal3.id })
+    await makeGoalCompletion({
+      goalId: goal1.id,
+      createdAt: dayjs(weekStartAt).add(2, 'day').toDate(),
+    })
 
-    const result = await getWeekPendingGoals({
+    await makeGoalCompletion({
+      goalId: goal2.id,
+      createdAt: dayjs(weekStartAt).add(2, 'day').toDate(),
+    })
+
+    await makeGoalCompletion({
+      goalId: goal3.id,
+      createdAt: dayjs(weekStartAt).add(3, 'day').toDate(),
+    })
+
+    await makeGoalCompletion({
+      goalId: goal3.id,
+      createdAt: dayjs(weekStartAt).add(5, 'day').toDate(),
+    })
+
+    const result = await getWeekSummary({
       userId: user.id,
+      weekStartAt,
     })
 
-    console.log(result)
-
-    /* expect(result).toEqual({
-      pendingGoals: expect.arrayContaining([
-        expect.objectContaining({
-          title: 'Meditar',
-          desiredWeeklyFrequency: 5,
-          completionCount: 1,
+    expect(result).toEqual({
+      summary: expect.objectContaining({
+        total: 6,
+        completed: 4,
+        goalsPerDay: expect.objectContaining({
+          '2024-10-11': expect.arrayContaining([
+            expect.objectContaining({ title: 'Ler' }),
+          ]),
+          '2024-10-09': expect.arrayContaining([
+            expect.objectContaining({ title: 'Ler' }),
+          ]),
+          '2024-10-08': expect.arrayContaining([
+            expect.objectContaining({ title: 'Meditar' }),
+            expect.objectContaining({ title: 'Nadar' }),
+          ]),
         }),
-        expect.objectContaining({
-          title: 'Nadar',
-          desiredWeeklyFrequency: 1,
-          completionCount: 1,
-        }),
-        expect.objectContaining({
-          title: 'Ler',
-          desiredWeeklyFrequency: 3,
-          completionCount: 2,
-        }),
-      ]),
-    }) */
+      }),
+    })
   })
 })
