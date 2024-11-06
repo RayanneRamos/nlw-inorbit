@@ -13,8 +13,9 @@ export const getWeekSummaryRoute: FastifyPluginAsyncZod = async app => {
       schema: {
         tags: ['goals'],
         description: 'Get week summary',
+        operationId: 'getWeekSummary',
         querystring: z.object({
-          weekStartAt: z.coerce
+          weekStartsAt: z.coerce
             .date()
             .optional()
             .default(dayjs().startOf('week').toDate()),
@@ -41,8 +42,8 @@ export const getWeekSummaryRoute: FastifyPluginAsyncZod = async app => {
     },
     async request => {
       const userId = request.user.sub
-      const { weekStartAt } = request.query
-      const { summary } = await getWeekSummary({ userId, weekStartAt })
+      const { weekStartsAt } = request.query
+      const { summary } = await getWeekSummary({ userId, weekStartsAt })
 
       return { summary }
     }

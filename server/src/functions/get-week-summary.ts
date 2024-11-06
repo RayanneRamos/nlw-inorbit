@@ -5,15 +5,15 @@ import dayjs from 'dayjs'
 
 interface GetWeekSummaryRequest {
   userId: string
-  weekStartAt: Date
+  weekStartsAt: Date
 }
 
 export async function getWeekSummary({
   userId,
-  weekStartAt,
+  weekStartsAt,
 }: GetWeekSummaryRequest) {
-  const firstDayOfWeek = weekStartAt
-  const lastDayOfWeek = dayjs(weekStartAt).endOf('week').toDate()
+  const firstDayOfWeek = weekStartsAt
+  const lastDayOfWeek = dayjs(weekStartsAt).endOf('week').toDate()
 
   const goalsCreatedUpToWeek = db.$with('goals_created_up_to_week').as(
     db
