@@ -1,16 +1,12 @@
 import { Dialog } from "@radix-ui/react-dialog";
-import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
-import { getSummary } from "../http/get-summary";
 import { WeeklySummary } from "../components/weekly-summary";
 import { EmptyGoals } from "../components/empty-goals";
 import { CreateGoal } from "../components/create-goal";
+import { useGetWeekSummary } from "../http/generated/api";
 
 export function Application() {
-  const { data, isLoading } = useQuery({
-    queryKey: ["summary"],
-    queryFn: getSummary,
-  });
+  const { data, isLoading } = useGetWeekSummary();
 
   if (isLoading || !data) {
     return (
@@ -20,7 +16,9 @@ export function Application() {
     );
   }
 
-  return (
+  return <div>{JSON.stringify(data, null, 2)}</div>;
+
+  /*  return (
     <Dialog>
       {data.summary.total > 0 ? (
         <WeeklySummary summary={data.summary} />
@@ -30,5 +28,5 @@ export function Application() {
 
       <CreateGoal />
     </Dialog>
-  );
+  ); */
 }
