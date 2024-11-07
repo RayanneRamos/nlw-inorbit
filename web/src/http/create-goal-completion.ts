@@ -1,18 +1,18 @@
 export type CreateGoalCompletionProps = {
-  id: string
-  title: string
-  desiredWeeklyFrequency: number
-  completionCount: number
-}[]
+  id: string;
+  title: string;
+  desiredWeeklyFrequency: number;
+  completionCount: number;
+}[];
 
 export async function createGoalCompletion(goalId: string) {
-  await fetch('http://localhost:3333/completions', {
-    method: 'POST',
+  await fetch("http://localhost:3333/completions", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       goalId,
     }),
-  })
+  });
 }
