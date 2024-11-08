@@ -16,11 +16,9 @@ export function Application() {
     );
   }
 
-  return <div>{JSON.stringify(data, null, 2)}</div>;
-
-  /*  return (
+  return (
     <Dialog>
-      {data.summary.total > 0 ? (
+      {data.summary.total && data.summary.total > 0 ? (
         <WeeklySummary summary={data.summary} />
       ) : (
         <EmptyGoals />
@@ -28,5 +26,5 @@ export function Application() {
 
       <CreateGoal />
     </Dialog>
-  ); */
+  );
 }

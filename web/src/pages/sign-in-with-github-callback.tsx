@@ -14,9 +14,10 @@ export function SignInWithGithubCallback() {
     return <Navigate to="/" />;
   }
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     authenticateFromGithub({ data: { code } }).then((response) => {
-      const token = response.data.token;
+      const token = response.token;
       const cookies = new Cookies();
 
       cookies.set("in-orbit.token", token, {

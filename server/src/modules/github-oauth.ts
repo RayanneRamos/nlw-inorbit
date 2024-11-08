@@ -27,6 +27,10 @@ export async function getAccessTokenFromCode(code: string) {
 
   const { access_token }: AccessTokenResponse = await response.json()
 
+  if (!access_token) {
+    throw new Error('Failed to obtain access token from github')
+  }
+
   return access_token
 }
 
