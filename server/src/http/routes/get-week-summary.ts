@@ -12,8 +12,8 @@ export const getWeekSummaryRoute: FastifyPluginAsyncZod = async app => {
       onRequest: [authenticateUserHook],
       schema: {
         tags: ['goals'],
-        description: 'Get week summary',
         operationId: 'getWeekSummary',
+        description: 'Get week summary',
         querystring: z.object({
           weekStartsAt: z.coerce
             .date()
@@ -24,17 +24,19 @@ export const getWeekSummaryRoute: FastifyPluginAsyncZod = async app => {
           200: z.object({
             summary: z.object({
               completed: z.number(),
-              total: z.number(),
-              goalsPerDay: z.record(
-                z.string(),
-                z.array(
-                  z.object({
-                    id: z.string(),
-                    title: z.string(),
-                    completedAt: z.string(),
-                  })
+              total: z.number().nullable(),
+              goalsPerDay: z
+                .record(
+                  z.string(),
+                  z.array(
+                    z.object({
+                      id: z.string(),
+                      title: z.string(),
+                      completedAt: z.string(),
+                    })
+                  )
                 )
-              ),
+                .nullable(),
             }),
           }),
         },

@@ -11,6 +11,7 @@ export const getUserLevelAndExperienceRoute: FastifyPluginAsyncZod =
         onRequest: [authenticateUserHook],
         schema: {
           tags: ['users', 'gamification'],
+          operationId: 'getUserLevelAndExperience',
           description: 'Get user experience and level',
           response: {
             200: z.object({
