@@ -5,7 +5,7 @@ import githubIcon from "../assets/github-icon.svg";
 export function SignInWithGithub() {
   const githubUrl = new URL("https://github.com/login/oauth/authorize");
 
-  githubUrl.searchParams.set("client_id", "Ov23liK01lkJQw1H7aZB");
+  githubUrl.searchParams.set("client_id", "Ov23li3D9vUWlhgkHlGN");
 
   return (
     <main className="h-screen flex flex-col items-center justify-center gap-8">
@@ -15,15 +15,15 @@ export function SignInWithGithub() {
         Conclua suas metas semanais, ganhe experiência e suba de nível!
       </p>
 
-      <a href={githubUrl.toString()}>
-        <Button
-          asChild
-          className="bg-white text-black hover:bg-white hover:opacity-60"
-        >
-          <img src={githubIcon} className="h-5 w-5" />
+      <Button
+        className="bg-white text-black hover:bg-white hover:opacity-60"
+        asChild
+      >
+        <a href={githubUrl.toString()}>
+          <img src={githubIcon} alt="" />
           Entrar com github
-        </Button>
-      </a>
+        </a>
+      </Button>
     </main>
   );
 }

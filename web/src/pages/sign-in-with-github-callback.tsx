@@ -22,9 +22,11 @@ export function SignInWithGithubCallback() {
 
       cookies.set("in-orbit.token", token, {
         path: "/",
+        sameSite: "lax",
         maxAge: 60 * 60 * 24,
       });
 
+      console.log(token);
       navigate("/app");
     });
   }, []);

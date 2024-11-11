@@ -22,7 +22,7 @@ export async function http<T>(path: string, options: RequestInit): Promise<T> {
   const response = await fetch(request);
 
   if (response.ok) {
-    if (response.headers.get("contenty-type")?.includes("application/json")) {
+    if (response.headers.get("content-type")?.includes("application/json")) {
       const data = await response.json();
 
       return data as T;

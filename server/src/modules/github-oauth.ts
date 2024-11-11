@@ -2,6 +2,8 @@ import { env } from '../env'
 
 interface AccessTokenResponse {
   access_token: string
+  scope: string
+  token_type: 'bearer'
 }
 
 interface GetUserResponse {
@@ -37,6 +39,7 @@ export async function getAccessTokenFromCode(code: string) {
 export async function getUserFromAccessToken(accessToken: string) {
   const response = await fetch('https://api.github.com/user', {
     headers: {
+      Accept: 'application/json',
       Authorization: `Bearer ${accessToken}`,
     },
   })
