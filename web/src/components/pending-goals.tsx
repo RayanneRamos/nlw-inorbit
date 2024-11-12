@@ -1,7 +1,13 @@
 import { Plus } from "lucide-react";
 import { OutlineButton } from "./ui/outline-button";
 import { useQueryClient } from "@tanstack/react-query";
-import { useCreateCompletion, useGetPendingGoals } from "../http/generated/api";
+import {
+  getGetPendingGoalsQueryKey,
+  getGetUserLevelAndExperienceQueryKey,
+  getGetWeekSummaryQueryKey,
+  useCreateCompletion,
+  useGetPendingGoals,
+} from "../http/generated/api";
 
 export function PendingGoals() {
   const queryClient = useQueryClient();
@@ -17,8 +23,11 @@ export function PendingGoals() {
   async function handleCreateGoalCompletion(goalId: string) {
     await createGoalCompletion({ data: { goalId } });
 
-    queryClient.invalidateQueries({ queryKey: ["pending-goals"] });
-    queryClient.invalidateQueries({ queryKey: ["summary"] });
+    queryClient.invalidateQueries({ queryKey: getGetPendingGoalsQueryKey() });
+    queryClient.invalidateQueries({ queryKey: getGetWeekSummaryQueryKey() });
+    queryClient.invalidateQueries({
+      queryKey: getGetUserLevelAndExperienceQueryKey(),
+    });
   }
 
   return (

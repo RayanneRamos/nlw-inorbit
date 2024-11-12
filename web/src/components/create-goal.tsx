@@ -18,7 +18,11 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
-import { useCreateGoal } from "../http/generated/api";
+import {
+  getGetPendingGoalsQueryKey,
+  getGetWeekSummaryQueryKey,
+  useCreateGoal,
+} from "../http/generated/api";
 
 const createGoalSchema = z.object({
   title: z.string().min(1, "Informe a atividade que deseja praticar"),
@@ -56,8 +60,12 @@ export function CreateGoal() {
 
       reset();
 
-      queryClient.invalidateQueries({ queryKey: ["pending-goals"] });
-      queryClient.invalidateQueries({ queryKey: ["summary"] });
+      queryClient.invalidateQueries({
+        queryKey: getGetPendingGoalsQueryKey(),
+      });
+      queryClient.invalidateQueries({
+        queryKey: getGetWeekSummaryQueryKey(),
+      });
 
       toast.success("Meta criada com sucesso!");
     } catch {

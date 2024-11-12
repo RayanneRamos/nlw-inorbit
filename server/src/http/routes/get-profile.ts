@@ -3,11 +3,13 @@ import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import { createGoalCompletion } from '../../functions/create-goal-completion'
 import { authenticateFromGithubCode } from '../../functions/authenticate-from-github-code'
 import { GetUser } from '../../functions/get-user'
+import { authenticateUserHook } from '../hooks/authenticate-user'
 
 export const getProfileRoute: FastifyPluginAsyncZod = async app => {
   app.get(
     '/profile',
     {
+      onRequest: [authenticateUserHook],
       schema: {
         tags: ['auth'],
         operationId: 'getProfile',
