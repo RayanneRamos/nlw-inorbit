@@ -3,7 +3,7 @@ import { db } from '../db'
 import { goals, users } from '../db/schema'
 import {
   calculateLevelFromExperience,
-  calculateTotalExperienceForLevel,
+  calculateExperienceForNextLevel,
 } from '../modules/gamification'
 
 interface GetUserLevelAndExperienceRequest {
@@ -21,7 +21,7 @@ export async function getUserLevelAndExperience({
     .where(eq(users.id, userId))
 
   const level = calculateLevelFromExperience(experience)
-  const experienceToNextLevel = calculateTotalExperienceForLevel(level + 1)
+  const experienceToNextLevel = calculateExperienceForNextLevel(level)
 
   return {
     experience,
