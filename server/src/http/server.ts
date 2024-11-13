@@ -19,6 +19,7 @@ import { getProfileRoute } from './routes/get-profile'
 import { getUserLevelAndExperienceRoute } from './routes/get-user-experience-and-level'
 import { resolve } from 'node:path'
 import { writeFile } from 'node:fs/promises'
+import { deleteCompletionRoute } from './routes/delete-completion'
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -54,6 +55,7 @@ app.register(getWeekSummaryRoute)
 app.register(authenticateFromGithubRoute)
 app.register(getProfileRoute)
 app.register(getUserLevelAndExperienceRoute)
+app.register(deleteCompletionRoute)
 
 app
   .listen({
