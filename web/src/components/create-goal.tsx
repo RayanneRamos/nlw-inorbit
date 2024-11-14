@@ -33,6 +33,36 @@ type CreateGoalSchema = z.infer<typeof createGoalSchema>;
 
 export function CreateGoal() {
   const queryClient = useQueryClient();
+  const frequencies = [
+    {
+      frequency: "1",
+      icon: "🥱",
+    },
+    {
+      frequency: "2",
+      icon: "🙂",
+    },
+    {
+      frequency: "3",
+      icon: "😎",
+    },
+    {
+      frequency: "4",
+      icon: "😜",
+    },
+    {
+      frequency: "5",
+      icon: "🤨",
+    },
+    {
+      frequency: "6",
+      icon: "🤯",
+    },
+    {
+      frequency: "7",
+      icon: "🔥",
+    },
+  ];
 
   const {
     register,
@@ -126,17 +156,17 @@ export function CreateGoal() {
                       value={String(field.value)}
                       onValueChange={field.onChange}
                     >
-                      {Array.from({ length: 7 }).map((_, i) => {
-                        const frequency = String(i + 1);
-
+                      {frequencies.map((frequency, i) => {
                         return (
                           // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                          <RadioGroupItem key={i} value={frequency}>
+                          <RadioGroupItem key={i} value={frequency.frequency}>
                             <RadioGroupIndicator />
                             <span className="text-zinc-300 text-sm font-medium leading-none">
-                              {frequency}x na semana
+                              {frequency.frequency}x na semana
                             </span>
-                            <span className="text-lg leading-none">🥱</span>
+                            <span className="text-lg leading-none">
+                              {frequency.icon}
+                            </span>
                           </RadioGroupItem>
                         );
                       })}

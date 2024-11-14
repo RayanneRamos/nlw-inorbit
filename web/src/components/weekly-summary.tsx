@@ -7,10 +7,16 @@ import { Separator } from "./ui/separator";
 import dayjs from "dayjs";
 import ptBR from "dayjs/locale/pt-BR";
 import { PendingGoals } from "./pending-goals";
-import type { GetWeekSummary200Summary } from "../http/generated/api";
+import {
+  useDeleteCompletion,
+  type GetWeekSummary200Summary,
+} from "../http/generated/api";
 import { UserProfile } from "./user-profile";
 import { UserLevel } from "./user-level";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { DeleteButton } from "./ui/delete-button";
+import { useState } from "react";
+import { toast } from "sonner";
 
 dayjs.locale(ptBR);
 
@@ -21,6 +27,7 @@ interface WeeklySummaryProps {
 export function WeeklySummary({ summary }: WeeklySummaryProps) {
   const [searchParams, setSearchParams] = useSearchParams();
   const weekStartsAtParam = searchParams.get("week_starts_at");
+  const navigate = useNavigate();
 
   const weekStartsAt = weekStartsAtParam
     ? new Date(weekStartsAtParam)
@@ -28,6 +35,9 @@ export function WeeklySummary({ summary }: WeeklySummaryProps) {
 
   const fromDate = dayjs(weekStartsAt).startOf("week").format("D[ de ]MMM");
   const toDate = dayjs(weekStartsAt).endOf("week").format("D[ de ]MMM");
+
+  const { mutateAsync: deleteCompletion } = useDeleteCompletion();
+  const [goals, setGoals] = useState(summary.goalsPerDay);
 
   const completedPercentage = summary.total
     ? Math.round((summary.completed * 100) / summary.total)
@@ -53,6 +63,29 @@ export function WeeklySummary({ summary }: WeeklySummaryProps) {
     );
 
     setSearchParams(params);
+  }
+
+  async function handleDeleteCompletion(completionId: string) {
+    try {
+      await deleteCompletion({ data: { completionId } });
+
+      const updatedGoals = { ...goals };
+
+      for (const date in updatedGoals) {
+        updatedGoals[date] = updatedGoals[date].filter(
+          (goal) => goal.id !== completionId
+        );
+      }
+
+      setGoals(updatedGoals);
+      toast.success("Meta desfeita com sucesso.");
+
+      setTimeout(() => {
+        navigate(0);
+      }, 5000);
+    } catch (error) {
+      toast.error("Erro ao desfazer a conclusão de uma tarefa.");
+    }
   }
 
   const isCurrentWeek = dayjs(weekStartsAt).endOf("week").isAfter(new Date());
@@ -149,6 +182,11 @@ export function WeeklySummary({ summary }: WeeklySummaryProps) {
                             às{" "}
                             <span className="text-zinc-100">{parsedTime}</span>
                           </span>
+                          <DeleteButton
+                            onClick={() => handleDeleteCompletion(goal.id)}
+                          >
+                            Desfazer
+                          </DeleteButton>
                         </li>
                       );
                     })}

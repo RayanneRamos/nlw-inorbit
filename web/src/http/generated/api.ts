@@ -48,6 +48,10 @@ export type AuthenticateFromGithubBody = {
   code: string;
 };
 
+export type GetWeekSummary200 = {
+  summary: GetWeekSummary200Summary;
+};
+
 export type GetWeekSummary200SummaryGoalsPerDayItem = {
   completedAt: string;
   id: string;
@@ -67,10 +71,6 @@ export type GetWeekSummary200Summary = {
   total: number | null;
 };
 
-export type GetWeekSummary200 = {
-  summary: GetWeekSummary200Summary;
-};
-
 export type GetWeekSummaryParams = {
 weekStartsAt?: string;
 };
@@ -84,6 +84,21 @@ export type GetPendingGoals200PendingGoalsItem = {
 
 export type GetPendingGoals200 = {
   pendingGoals: GetPendingGoals200PendingGoalsItem[];
+};
+
+/**
+ * @nullable
+ */
+export type DeleteCompletion204 = typeof DeleteCompletion204[keyof typeof DeleteCompletion204] | null;
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteCompletion204 = {
+  null: 'null',
+} as const;
+
+export type DeleteCompletionBody = {
+  completionId: string;
 };
 
 /**
@@ -245,6 +260,67 @@ const {mutation: mutationOptions, request: requestOptions} = options ?? {};
       > => {
 
       const mutationOptions = getCreateCompletionMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+/**
+ * Delete a goal completion
+ */
+export const getDeleteCompletionUrl = () => {
+
+
+  return `/completions`
+}
+
+export const deleteCompletion = async (deleteCompletionBody: DeleteCompletionBody, options?: RequestInit): Promise<DeleteCompletion204> => {
+  
+  return http<Promise<DeleteCompletion204>>(getDeleteCompletionUrl(),
+  {      
+    ...options,
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      deleteCompletionBody,)
+  }
+);}
+
+
+
+
+export const getDeleteCompletionMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteCompletion>>, TError,{data: DeleteCompletionBody}, TContext>, request?: SecondParameter<typeof http>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteCompletion>>, TError,{data: DeleteCompletionBody}, TContext> => {
+const {mutation: mutationOptions, request: requestOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteCompletion>>, {data: DeleteCompletionBody}> = (props) => {
+          const {data} = props ?? {};
+
+          return  deleteCompletion(data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteCompletionMutationResult = NonNullable<Awaited<ReturnType<typeof deleteCompletion>>>
+    export type DeleteCompletionMutationBody = DeleteCompletionBody
+    export type DeleteCompletionMutationError = unknown
+
+    export const useDeleteCompletion = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteCompletion>>, TError,{data: DeleteCompletionBody}, TContext>, request?: SecondParameter<typeof http>}
+): UseMutationResult<
+        Awaited<ReturnType<typeof deleteCompletion>>,
+        TError,
+        {data: DeleteCompletionBody},
+        TContext
+      > => {
+
+      const mutationOptions = getDeleteCompletionMutationOptions(options);
 
       return useMutation(mutationOptions);
     }
