@@ -98,6 +98,47 @@
             }
           }
         }
+      },
+      "delete": {
+        "operationId": "deleteCompletion",
+        "tags": [
+          "goals"
+        ],
+        "description": "Delete a goal completion",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "completionId": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "completionId"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "enum": [
+                    "null"
+                  ],
+                  "nullable": true
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/pending-goals": {

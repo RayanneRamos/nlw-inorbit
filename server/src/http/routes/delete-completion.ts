@@ -1,6 +1,7 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import z from 'zod'
 import { deleteGoalCompletion } from '../../functions/delete-goal-completion'
+import { authenticateUserHook } from '../hooks/authenticate-user'
 
 export const deleteCompletionRoute: FastifyPluginAsyncZod = async app => {
   app.delete(
@@ -14,7 +15,7 @@ export const deleteCompletionRoute: FastifyPluginAsyncZod = async app => {
           completionId: z.string(),
         }),
         response: {
-          201: z.null(),
+          204: z.null(),
         },
       },
     },
@@ -23,7 +24,7 @@ export const deleteCompletionRoute: FastifyPluginAsyncZod = async app => {
 
       await deleteGoalCompletion({ completionId })
 
-      return reply.status(201).send()
+      return reply.status(204).send()
     }
   )
 }
