@@ -16,14 +16,14 @@
 
 [inorbit](https://nlw-inorbit-ky6sa7qtr-rayanneramos-projects.vercel.app/) Este projeto é um aplicativo que ajuda você a construir e acompanhar hábitos de forma eficiente. Com ele, você pode escolher o hábito que deseja adotar, definir o número de dias que pretende realizar essa atividade, e monitorar seu progresso ao longo do tempo.
 
-## 🔧 Funcionalidades
+## 🌟 Funcionalidades
 
 - <strong>Escolha de Hábito</strong>: Selecione qualquer hábito que você deseja adicionar à sua rotina.
 - <strong>Definição de Metas</strong>: Estabeleça quantos dias pretende realizar o hábito.
 - <strong>Acompanhamento de Progresso</strong>: Conforme você for completando o hábito, seu progresso será atualizado automaticamente.
 - <strong>Visualização de Metas</strong>: Veja quantas metas você já completou e quantas ainda faltam para atingir seu objetivo.
 
-## 🧪 Technologies
+## 🧪 Tecnologias
 
 Esse projeto foi desenvolvido com as seguintes tecnologias:
 
